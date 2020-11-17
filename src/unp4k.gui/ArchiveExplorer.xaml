@@ -39,6 +39,10 @@
 				<KeyGesture>ENTER</KeyGesture>
 			</RoutedUICommand.InputGestures>
 		</RoutedUICommand>
+		<RoutedUICommand x:Key="SaveDiffFile" Text="Save to Diff File">
+		</RoutedUICommand>
+		<RoutedUICommand x:Key="CompareTo" Text="Compare To">
+		</RoutedUICommand>
 		<ContextMenu x:Key="mnuLeaf" StaysOpen="True">
 			<MenuItem Command="{StaticResource OpenFile}" />
 			<MenuItem Command="{StaticResource ExtractFile}" />
@@ -59,6 +63,8 @@
 		<CommandBinding Command="{StaticResource OpenArchive}" Executed="cmdOpenArchive_Executed" />
 		<CommandBinding Command="{StaticResource FilterArchive}" Executed="cmdFilterArchive_Executed"/>
 		<CommandBinding Command="{StaticResource ExitApplication}" Executed="cmdExitApplication_Executed" />
+		<CommandBinding Command="{StaticResource SaveDiffFile}" Executed="cmdSaveDiffFile_Executed" />
+		<CommandBinding Command="{StaticResource CompareTo}" Executed="cmdCompareTo_Executed" />
 	</Window.CommandBindings>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -82,6 +88,10 @@
 					<MenuItem Command="{StaticResource OpenArchive}" InputGestureText="Ctrl+O" />
 					<Separator />
 					<MenuItem Command="{StaticResource ExitApplication}" InputGestureText="Alt+F4" />
+				</MenuItem>
+				<MenuItem Header="_Diff Tools">
+					<MenuItem Command="{StaticResource SaveDiffFile}" />
+					<MenuItem Command="{StaticResource CompareTo}" />
 				</MenuItem>
 			</Menu>
 		</DockPanel>

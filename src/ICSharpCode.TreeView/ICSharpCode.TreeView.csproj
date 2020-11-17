@@ -7,7 +7,12 @@
     <Copyright>2000-2012 AlphaSierraPapa for the SharpDevelop Team</Copyright>
     <Authors />
     <Version>4.2.0.8752</Version>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="5.0.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="PresentationCore" />

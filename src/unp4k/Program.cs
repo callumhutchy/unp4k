@@ -23,13 +23,20 @@ namespace unp4k
 
 			if (args.Length == 1) args = new[] { args[0], "*.*" };
 
+
+
 			using (var pakFile = File.OpenRead(args[0]))
 			{
 				var pak = new ZipFile(pakFile) { Key = key };
 				byte[] buf = new byte[4096];
 
+				string[] lines = new string[pak.Count];
+				int index = 0;
 				foreach (ZipEntry entry in pak)
 				{
+					lines[index] = $"{entry.Name},{entry.IsFile},{entry.DateTime},{entry.IsDirectory}";
+					index++;
+					/*
 					try
 					{
 						var crypto = entry.IsAesCrypted ? "Crypt" : "Plain";
@@ -64,36 +71,11 @@ namespace unp4k
 					catch (Exception ex)
 					{
 						Console.WriteLine($"Exception while extracting {entry.Name}: {ex.Message}");
-
-						try
-						{
-							using (var client = new HttpClient { })
-							{
-								// var server = "http://herald.holoxplor.local";
-								var server = "https://herald.holoxplor.space";
-
-								client.DefaultRequestHeaders.Add("client", "unp4k");
-
-								using (var content = new MultipartFormDataContent("UPLOAD----"))
-								{
-									content.Add(new StringContent($"{ex.Message}\r\n\r\n{ex.StackTrace}"), "exception", entry.Name);
-
-									using (var errorReport = client.PostAsync($"{server}/p4k/exception/{entry.Name}", content).Result)
-									{
-										if (errorReport.StatusCode == System.Net.HttpStatusCode.OK)
-										{
-											Console.WriteLine("This exception has been reported.");
-										}
-									}
-								}
-							}
-						}
-						catch (Exception)
-						{
-							Console.WriteLine("There was a problem whilst attempting to report this error.");
-						}
 					}
+				*/
 				}
+
+				File.WriteAllLines("output.csv", lines);
 			}
 		}
 	}
