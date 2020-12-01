@@ -5,7 +5,6 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -14,7 +13,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Text.Json;
 using unp4k.gui.Extensions;
 using unp4k.gui.TreeModel;
 using Path = System.IO.Path;
@@ -149,7 +147,7 @@ namespace unp4k.gui
 			var oldDelegate = ArchiveExplorer._updateDelegate;
 
 			ArchiveExplorer._updateDelegate = @delegate;
-
+			
 			return oldDelegate;
 		}
 
@@ -170,9 +168,9 @@ namespace unp4k.gui
 			var pak = new ZipFile(pakFile) { Key = new Byte[] { 0x5E, 0x7A, 0x20, 0x02, 0x30, 0x2E, 0xEB, 0x1A, 0x3B, 0xB6, 0x17, 0xC3, 0x0F, 0xDE, 0x1E, 0x47 } };
 
 			var root = new ZipFileTreeItem(pak, Path.GetFileName(path));
-
+			
 			var filter = this._lastFilterText;
-
+			
 			if (filter.Equals("Filter...", StringComparison.InvariantCultureIgnoreCase)) filter = null;
 
 			await this.Dispatcher.Invoke(async () =>
@@ -268,7 +266,7 @@ namespace unp4k.gui
 				foreach (ITreeItem selectedItem in selectedItems)
 				{
 					var result = await this._extractor.ExtractNodeAsync(selectedItem, false);
-
+					
 					// TODO: Handle false(error) results
 				}
 			}).Start();
@@ -286,12 +284,12 @@ namespace unp4k.gui
 			new Thread(async () =>
 			{
 				var result = true;
-
+				
 				foreach (ITreeItem selectedItem in selectedItems)
 				{
 					result &= await this._extractor.ExtractNodeAsync(selectedItem, true);
 				}
-
+				
 				// TODO: Handle false(error) results
 			}).Start();
 
@@ -349,13 +347,13 @@ namespace unp4k.gui
 		// }
 
 		#endregion
-
+			
 		#region Filter Support
-
+		
 		private DateTime? _lastFilterTime;
 		private String _lastFilterText = String.Empty;
 		private String _activeFilterText = String.Empty;
-
+		
 		private async Task NotifyNodesAsync(ITreeItem node)
 		{
 			await Task.CompletedTask;
@@ -426,7 +424,7 @@ namespace unp4k.gui
 		//}
 
 		//#endregion
-
+		
 		private void cmdExitApplication_Executed(Object sender, ExecutedRoutedEventArgs e)
 		{
 			Application.Current.Shutdown();
@@ -453,12 +451,6 @@ namespace unp4k.gui
 			VistaSaveFileDialog ofd = new VistaSaveFileDialog();
 			ofd.ShowDialog();
 			File.WriteAllLines(ofd.FileName, lines);
-
-		}
-
-
-		private void cmdCompareTo_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
 
 		}
 
